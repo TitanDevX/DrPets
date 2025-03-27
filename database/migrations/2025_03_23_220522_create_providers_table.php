@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->string("test2");
+            $table->string('name',20);
+            $table->double('delivery_fee_per_km');
             $table->timestamps(); 
         });
     }
