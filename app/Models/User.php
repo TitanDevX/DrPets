@@ -49,4 +49,10 @@ class User extends Authenticatable
     public function addresses(){
         return $this->morphMany(Address::class,'addressable');
     }
+    public function pets(){
+        return $this->hasMany(Pet::class);
+    }
+    public function reminders(){
+        return $this->hasMany(Reminder::class);
+    }
 }

@@ -14,4 +14,7 @@ class Breed extends Model
     protected $translatable = ['name'];
 
 
+    public function pets(){
+        return $this->has(Pet::class);
+    }
 }
