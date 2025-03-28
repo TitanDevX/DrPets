@@ -11,7 +11,7 @@ class Breed extends Model
 
     protected $guarded = ['id','created_at','updated_at'];
 
-    protected $translatable = ['name'];
+    protected $translatable = ['name','description'];
 
 
     public function pets(){

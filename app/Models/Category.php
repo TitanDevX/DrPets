@@ -16,7 +16,7 @@ class Category extends Model
     ];
     protected $guarded = ['id','created_at','updated_at'];
 
-    protected $translatable = ['name'];
+    protected $translatable = ['name','description'];
 
 
     public function products(){

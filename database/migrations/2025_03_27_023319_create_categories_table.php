@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->json('name');
+            $table->json('description')->nullable();
+            $table->boolean('enabled')->default(true);
             $table->string('type',7); // Service|Product
         
             $table->timestamps();
