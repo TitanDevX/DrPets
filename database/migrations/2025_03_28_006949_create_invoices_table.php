@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Invoice;
 use App\Models\PromoCode;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -16,7 +17,7 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->morphs('invoicable'); //product or service.
+           
             $table->tinyInteger('status');
             $table->double('subtotal');
             $table->double('tax');
@@ -24,6 +25,11 @@ return new class extends Migration
             $table->foreignIdFor(PromoCode::class)->nullable();
             $table->double('total');
             $table->timestamps();
+        });
+        Schema::create('invoice_contents', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Invoice::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->morphs('invoicable'); //product or service.
         });
     }
 

@@ -24,6 +24,7 @@ return new class extends Migration
         });
 
         Schema::create('service_availablity', function (Blueprint $table) {
+            $table->id();
             $table->foreignIdFor(Service::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('day',3);
             $table->time('start');
