@@ -17,7 +17,9 @@ class ProviderFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'email' => $this->faker->safeEmail(),
+            'delivery_fee_per_km' => $this->faker->randomFloat(1,0.1,10)
         ];
     }
 }
