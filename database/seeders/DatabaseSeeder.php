@@ -7,8 +7,11 @@ use App\Models\Category;
 use App\Models\Product;
 use App\Models\Provider;
 use App\Models\Reminder;
+use App\Models\Service;
+use App\Models\ServiceAvailability;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Faker\ChanceGenerator;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -38,7 +41,21 @@ class DatabaseSeeder extends Seeder
         }
         Reminder::factory()->count(50)->create();
 
-       Product::factory()->count(1000)->create();
-        
+        Product::factory()->count(1000)->create();
+        for($i = 0;$i<100;$i++){
+
+            $service = Service::factory()->create();
+            $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri','Sat', 'Sun'];
+            for($di = 0;$di<7;$di++){
+                $day = $days[$di];
+                if(fake()->boolean(rand(1,100))){
+                    ServiceAvailability::factory()->for($service, 'service')->create([
+                        'day' => $day
+                    ]);
+                }
+            }
+           
+
+        }
     }
 }

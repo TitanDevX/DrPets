@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Service;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,9 @@ class ServiceAvailabilityFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+           
+            'start' => rand(8,22) . ':' . ($this->faker->boolean() ? '30' : '00') . ':00',
+            'end' => '23:59:00'
         ];
     }
 }

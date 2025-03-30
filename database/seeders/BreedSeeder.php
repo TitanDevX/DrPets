@@ -130,9 +130,7 @@ class BreedSeeder extends Seeder
         ];
         
         foreach($petBreeds as $key ){
-            echo json_encode($key) . "\n\n\n";
             foreach($key['breeds'] as $breedName=> $desc ){
-                echo $breedName;
             $f->create([
                     'name' => $breedName,
                     'type' => $f->translations(['en','ar','fr'],[$key['type']['en'],

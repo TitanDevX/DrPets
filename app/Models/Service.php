@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Service extends Model
 {
+    use HasFactory;
     protected $guarded = ['id','updated_at','created_at'];
 
     public function provider(){

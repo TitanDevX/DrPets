@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Category;
+use App\Models\Provider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +19,11 @@ class ServiceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
-        ];
+            'name' => substr($this->faker->sentence(3),0,30),
+            'price' => $this->faker->randomFloat(1,1,1000),
+            'category_id' => Category::inRandomOrder()->first()->id ?? Category::factory()->create()->id,
+            'provider_id' => Provider::inRandomOrder()->first()->id ?? Provider::factory()->create()->id,
+        ]
+        ;
     }
 }

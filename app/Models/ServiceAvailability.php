@@ -12,7 +12,7 @@ class ServiceAvailability extends Model
 
 
     protected $guarded = ['id'];
-
+    public $timestamps = false;
     public function service(){
         return $this->belongsTo(Service::class);
     }

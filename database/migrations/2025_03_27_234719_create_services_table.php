@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        Schema::create('service_availablity', function (Blueprint $table) {
+        Schema::create('service_availabilities', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Service::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('day',3);
@@ -38,5 +38,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('services');
+        Schema::dropIfExists('service_availabilities');
     }
 };
