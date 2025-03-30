@@ -2,16 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 class Breed extends Model
 {
-    use HasTranslations;
+    use HasTranslations, HasFactory;
 
     protected $guarded = ['id','created_at','updated_at'];
 
-    protected $translatable = ['name','description'];
+    protected $translatable = ['type','description'];
 
 
     public function pets(){

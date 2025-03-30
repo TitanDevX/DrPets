@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('breeds', function (Blueprint $table) {
             $table->id();
-            $table->json('name');
+            $table->json('type');
+            $table->string('name',20);
             $table->json('description')->nullable();
             $table->boolean('enabled')->default(true);
             $table->timestamps();
