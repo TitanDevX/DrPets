@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Pet;
 use App\Models\Product;
@@ -34,6 +35,7 @@ class DatabaseSeeder extends Seeder
         ]);
         Address::factory()->count(3)->for($user, 'addressable')->create(); 
         Reminder::factory()->count(5)->for($user)->create();
+        Cart::factory()->count(5)->for($user)->create();
         }
        
         User::factory()->count(10)->create();
@@ -60,6 +62,7 @@ class DatabaseSeeder extends Seeder
 
         }
         Pet::factory()->count(50)->create();
+        Cart::factory()->count(50)->create();
 
     }
 }

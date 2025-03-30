@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Product::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->unsignedInteger('quantity')->default(1);
-            $table->string('notes',128);
+            $table->string('notes',128)->nullable();
             $table->timestamps();
         });
     }
