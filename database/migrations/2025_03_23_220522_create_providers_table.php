@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('providers', function (Blueprint $table) {
             $table->id();
-            $table->string('name',20);
+            $table->string('name',40);
             $table->string('email');
             $table->double('delivery_fee_per_km');
             $table->timestamps(); 
