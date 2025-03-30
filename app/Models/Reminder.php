@@ -9,4 +9,10 @@ class Reminder extends Model
 {
     /** @use HasFactory<\Database\Factories\ReminderFactory> */
     use HasFactory;
+
+    protected $guarded = ['id','created_at', 'deleted_at'];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

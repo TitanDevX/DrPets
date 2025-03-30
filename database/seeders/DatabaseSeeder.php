@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Category;
+use App\Models\Reminder;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -23,12 +25,13 @@ class DatabaseSeeder extends Seeder
 
         ]);
         Address::factory()->count(3)->for($user, 'addressable')->create(); 
-
+        Reminder::factory()->count(5)->for($user)->create();
     }
        
         for($i = 0;$i<100;$i++){
             Address::factory()->count(4)->for(User::factory(),'addressable')->create();
         }
+        Reminder::factory()->count(50)->create();
         
     }
 }
