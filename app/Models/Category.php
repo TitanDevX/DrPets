@@ -3,13 +3,14 @@
 namespace App\Models;
 
 use App\Enums\CategoryType;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Translatable\HasTranslations;
 
 class Category extends Model
 {
 
-    use HasTranslations;
+    use HasTranslations, HasFactory;
 
     protected $casts = [
         'type' => CategoryType::class
