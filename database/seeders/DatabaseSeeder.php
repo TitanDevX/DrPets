@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Address;
 use App\Models\Category;
+use App\Models\Pet;
 use App\Models\Product;
 use App\Models\Provider;
 use App\Models\Reminder;
@@ -35,13 +36,14 @@ class DatabaseSeeder extends Seeder
         Reminder::factory()->count(5)->for($user)->create();
         }
        
+        User::factory()->count(10)->create();
         Provider::factory()->count(10)->create();
         for($i = 0;$i<100;$i++){
             Address::factory()->count(4)->for(User::factory(),'addressable')->create();
         }
         Reminder::factory()->count(50)->create();
 
-        Product::factory()->count(1000)->create();
+        Product::factory()->count(100)->create();
         for($i = 0;$i<100;$i++){
 
             $service = Service::factory()->create();
@@ -57,5 +59,7 @@ class DatabaseSeeder extends Seeder
            
 
         }
+        Pet::factory()->count(50)->create();
+
     }
 }
