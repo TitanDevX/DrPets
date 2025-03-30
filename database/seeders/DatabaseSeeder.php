@@ -7,6 +7,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Pet;
 use App\Models\Product;
+use App\Models\PromoCode;
 use App\Models\Provider;
 use App\Models\Reminder;
 use App\Models\Service;
@@ -63,6 +64,7 @@ class DatabaseSeeder extends Seeder
         }
         Pet::factory()->count(50)->create();
         Cart::factory()->count(50)->create();
+        PromoCode::factory()->count(50)->create();
 
     }
 }
