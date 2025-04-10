@@ -19,7 +19,7 @@ class Invoice extends Model
         return $this->belongsTo(User::class);
     }
     public function promoCode(){
-        return $this->hasOne(PromoCode::class);
+        return $this->belongsTo(PromoCode::class);
     }
 
     

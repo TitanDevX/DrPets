@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Address;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Invoice;
+use App\Models\InvoiceContent;
 use App\Models\Pet;
 use App\Models\Product;
 use App\Models\PromoCode;
@@ -25,7 +27,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
+        PromoCode::factory()->count(50)->create();
         resolve(CategorySeeder::class)->run();
         resolve(BreedSeeder::class)->run();
         if(!User::where('name','=','Test user')->exists()){
@@ -37,6 +39,24 @@ class DatabaseSeeder extends Seeder
         Address::factory()->count(3)->for($user, 'addressable')->create(); 
         Reminder::factory()->count(5)->for($user)->create();
         Cart::factory()->count(5)->for($user)->create();
+
+        for($i = 0;$i<5;$i++){
+
+            $invoice = Invoice::factory()->for($user, 'user')->for(PromoCode::factory(), 'promoCode')->make();
+            $prs = Product::factory()->count(5)->create();
+            foreach ($prs as $key => $value) {
+                $invoice->subTotal += $value->price;
+            }
+          
+            $invoice->total = $invoice->subTotal+$invoice->fee+$invoice->tax ;
+            $invoice->save();
+            foreach ($prs as $key => $value) {
+                $c = InvoiceContent::factory()->for($invoice,'invoice')
+                ->for($value,'invoicable')
+                ->create();
+            }
+           
+        }
         }
        
         User::factory()->count(10)->create();
@@ -64,7 +84,10 @@ class DatabaseSeeder extends Seeder
         }
         Pet::factory()->count(50)->create();
         Cart::factory()->count(50)->create();
-        PromoCode::factory()->count(50)->create();
+      
+
+
+        
 
     }
 }

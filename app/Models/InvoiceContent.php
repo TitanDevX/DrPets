@@ -11,6 +11,8 @@ class InvoiceContent extends Model
     use HasFactory;
      protected $guarded = ['id'];
 
+     public $timestamps = false;
+
      public function invoice(){
         return $this->belongsTo(Invoice::class);
      }

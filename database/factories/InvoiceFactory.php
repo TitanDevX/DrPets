@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enums\InvoiceStatus;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -18,8 +19,9 @@ class InvoiceFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
-
+            'status'=> InvoiceStatus::PENDING->value,
+            'fee' => $this->faker->randomFloat(1),
+            'tax' => $this->faker->randomFloat(1)
         ];
     }
 }
