@@ -18,5 +18,8 @@ class Pet extends Model
     public function breed(){
         return $this->belongsTo(Breed::class);
     }
+    public function services(){
+        return $this->hasMany(Service::class);
+    }
     
 }

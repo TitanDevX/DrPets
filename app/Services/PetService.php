@@ -18,17 +18,20 @@ class PetService {
             
             return $query->whereHas('breed', function ($query) use ($data) {
                // return $query->where('type', 'like', "%{$data['type']}%");
-             
+               $query->where(function ($query) use ($data) {
                 foreach (config('app.available_locales') as $key => $locale) {
-                    dd("type->{$key}");
-                    $query->where("type->{$key}", 'like', "%{$data['type']}%");
+                    $query->orWhere("type->{$key}", 'like', "%{$data['type']}%");
                 }
+               });
+             
+               
             });
 
         });
 
-        $allowedRelationships = ['breed', 'user'];
+        $allowedRelationships = ['breed', 'user', 'services'];
     
+        
         if($withes != null){
         // Parse and validate ?with=param
         $relations = collect( $withes)

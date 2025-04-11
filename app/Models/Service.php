@@ -16,6 +16,9 @@ class Service extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+    public function pet(){
+        return $this->belongsTo(Pet::class);
+    }
 
     public function booking(){
         return $this->hasMany(Booking::class);

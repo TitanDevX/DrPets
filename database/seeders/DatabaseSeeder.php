@@ -39,9 +39,11 @@ class DatabaseSeeder extends Seeder
         Address::factory()->count(3)->for($user, 'addressable')->create(); 
         Reminder::factory()->count(5)->for($user)->create();
         Cart::factory()->count(5)->for($user)->create();
-
+      
+        
         for($i = 0;$i<5;$i++){
-
+            $pet = Pet::factory()->for($user)->create();
+            Service::factory()->for($pet)->create();
             $invoice = Invoice::factory()->for($user, 'user')->for(PromoCode::factory(), 'promoCode')->make();
             $prs = Product::factory()->count(5)->create();
             foreach ($prs as $key => $value) {
