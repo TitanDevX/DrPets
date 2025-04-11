@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name',30);
             $table->text('description');
+            $table->date('birth')->nullable();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Breed::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
 
