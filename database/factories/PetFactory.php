@@ -25,6 +25,7 @@ class PetFactory extends Factory
             'name' => $this->faker->randomElements($petNames)[0],
             'description' => $this->faker->paragraph(),
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
+            'birth' => $this->faker->dateTimeBetween('-5 years', 'now')->format('Y-m-d'),
             'breed_id' => Breed::inRandomOrder()->first()->id,
         ];
     }
