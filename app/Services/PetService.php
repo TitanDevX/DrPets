@@ -29,7 +29,7 @@ class PetService {
 
         });
 
-        $allowedRelationships = ['breed', 'user', 'services'];
+        $allowedRelationships = ['breed', 'user', 'services','services.provider','services.availablity'];
     
         
         if($withes != null){

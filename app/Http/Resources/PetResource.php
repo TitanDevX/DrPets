@@ -20,7 +20,8 @@ class PetResource extends JsonResource
             'description' => $this->description,
             'birth' => $this->birth,
             'user' => UserResource::make($this->whenLoaded('user')),
-            'breed' => BreedResource::make($this->whenLoaded('breed'))
+            'breed' => BreedResource::make($this->whenLoaded('breed')),
+            'services' => ServiceResource::collection($this->whenLoaded('services')),
             
         ];
     }
