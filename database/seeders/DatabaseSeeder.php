@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         $user = User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
-
+            'password' => bcrypt("123123")
         ]);
         Address::factory()->count(3)->for($user, 'addressable')->create(); 
         Reminder::factory()->count(5)->for($user)->create();
