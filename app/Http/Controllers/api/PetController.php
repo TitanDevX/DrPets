@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePetRequest;
 use App\Http\Resources\PetResource;
 use App\Services\PetService;
 use Illuminate\Http\Request;
@@ -25,9 +26,12 @@ class PetController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StorePetRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $pet = $this->petService->storePet($data);
+        return $this->res(PetResource::make($pet));
     }
 
     /**

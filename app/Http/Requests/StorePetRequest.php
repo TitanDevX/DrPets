@@ -25,7 +25,7 @@ class StorePetRequest extends FormRequest
     {
         return [
             'name' => ['string', 'required','max:30', new PetUniquePerUserRule()],
-            'description' => ['string', 'max:512'],
+            'description' => ['string', 'max:512','required'],
             'birth' => ['date',Rule::date()->todayOrBefore() ],
             'breed_id' => ['required', 'exists:breeds,id']
         ];

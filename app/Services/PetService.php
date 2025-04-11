@@ -1,5 +1,7 @@
 <?php
 namespace App\Services;
+
+use App\Models\Pet;
 class PetService {
 
     public function getPets($user, $data = [], $withes =[], $paginated){
@@ -47,6 +49,15 @@ class PetService {
             return $pets->get();
         }
 
+
+    }
+
+    public function storePet($data){
+
+        
+        $pet = Pet::create(array_merge($data,['user_id' => auth()->id()]));
+
+        return $pet;
 
     }
 

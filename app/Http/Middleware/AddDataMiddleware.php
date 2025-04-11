@@ -16,8 +16,9 @@ class AddDataMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        
         if(Auth::check()){
-            $request->user_id = Auth::user()->id;
+            $request['user_id'] = Auth::user()->id;
         }
         return $next($request);
     }

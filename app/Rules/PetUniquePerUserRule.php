@@ -15,6 +15,7 @@ class PetUniquePerUserRule implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        
         $user = Auth::user();
         if($user->pets()->where('name' ,'=', $value)->exists()){
             $fail('User already have a pet with the same name.');
