@@ -5,19 +5,24 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\VerifyEmailRequest;
 use App\Http\Resources\UserResource;
 use App\Models\RoleUser;
 use App\Models\User;
 use App\Services\AuthService;
+use App\Services\VerificationService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     protected $guard = 'sanctum';
 
-    public function __construct(protected AuthService $authService){
+    public function __construct(protected AuthService $authService,
+    protected VerificationService $verificationService){
 
 
 
@@ -29,14 +34,7 @@ class AuthController extends Controller
         
         return $this->res(UserResource::make($user));
     }
-    public function index(){
-       
-        $user = Auth::user();
-        $user->load('profile');
-       
-            return $this->res(UserResource::make($user));
-      
-    }
+  
     public function login(LoginUserRequest $request){
         
         
@@ -72,5 +70,23 @@ class AuthController extends Controller
         request()->user()->currentAccessToken()->delete();
  
     return $this->res();
+    }
+    public function verifyEmail(VerifyEmailRequest $request){
+        $data = $request->validated();
+
+        $user = Auth::user();
+        Cache::forget($user->email . '_otp');
+        $user->markEmailAsVerified();
+
+        return $this->res(['Successfully verified email.']);
+    }
+    public function resendOtp(){
+        $user = Auth::user();
+        $untilReset = $this->verificationService->timeUntilCanResend($user);
+        if($untilReset > 0){
+            return $this->res(["Please wait " . $untilReset . " seconds before resending otp."]);
+        }
+        $this->verificationService->sendEmail($user);
+        return $this->res(['Successfully resent otp.']);
     }
 }
