@@ -60,5 +60,11 @@ class PetService {
         return $pet;
 
     }
+    public function updatePet($pet , $data){
+
+        return $pet->update($data);
+
+    }
+
 
 }

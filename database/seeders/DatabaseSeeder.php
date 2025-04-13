@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
         PromoCode::factory()->count(50)->create();
         resolve(CategorySeeder::class)->run();
         resolve(BreedSeeder::class)->run();
+        resolve(PermissionSeeder::class)->run();
         if(!User::where('name','=','Test user')->exists()){
         $user = User::factory()->create([
             'name' => 'Test User',
@@ -89,6 +90,11 @@ class DatabaseSeeder extends Seeder
       
 
 
+        $roles = [
+            'admin' => [
+                'pet.rete'
+            ]
+        ];
         
 
     }
