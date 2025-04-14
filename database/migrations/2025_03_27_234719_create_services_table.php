@@ -21,7 +21,6 @@ return new class extends Migration
             $table->double("price");
             $table->foreignIdFor(Category::class)->constrained()->cascadeOnDelete()->cascadeOnDelete();
             $table->foreignIdFor(Provider::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignIdFor(Pet::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
 

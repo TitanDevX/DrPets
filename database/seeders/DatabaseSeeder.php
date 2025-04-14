@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Address;
+use App\Models\Booking;
 use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Invoice;
@@ -44,7 +45,8 @@ class DatabaseSeeder extends Seeder
         
         for($i = 0;$i<5;$i++){
             $pet = Pet::factory()->for($user)->create();
-            Service::factory()->for($pet)->create();
+            $service = Service::factory()->create();
+         
             $invoice = Invoice::factory()->for($user, 'user')->for(PromoCode::factory(), 'promoCode')->make();
             $prs = Product::factory()->count(5)->create();
             foreach ($prs as $key => $value) {
@@ -58,7 +60,7 @@ class DatabaseSeeder extends Seeder
                 ->for($value,'invoicable')
                 ->create();
             }
-           
+            Booking::factory()->for($pet)->for($invoice)->for($service)->create();
         }
         }
        

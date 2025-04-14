@@ -20,7 +20,7 @@ class ReminderFactory extends Factory
         return [
             'user_id' => User::inRandomOrder()->first()->id ?? User::factory()->create()->id,
             'time' => $this->faker->dateTimeBetween('now', '+1 month'),
-            
+            'text' => $this->faker->sentence(),
         ];
     }
 }

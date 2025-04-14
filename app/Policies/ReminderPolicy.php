@@ -4,6 +4,7 @@ namespace App\Policies;
 
 use App\Models\Reminder;
 use App\Models\User;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Auth\Access\Response;
 
 class ReminderPolicy
@@ -19,9 +20,10 @@ class ReminderPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Reminder $reminder): bool
+    public function view(User $user, Reminder $reminder)
     {
-        return false;
+        return ($reminder->user_id == $user->id || $user->hasPermissionTo('reminder.reterive')) ? 
+      Response::allow(): Response::denyAsNotFound();
     }
 
     /**
@@ -35,17 +37,19 @@ class ReminderPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Reminder $reminder): bool
+    public function update(User $user, Reminder $reminder)
     {
-        return false;
+       return ($reminder->user_id == $user->id || $user->hasPermissionTo('reminder.update')) ? 
+        Response::allow(): Response::denyAsNotFound();
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Reminder $reminder): bool
+    public function delete(User $user, Reminder $reminder)
     {
-        return false;
+        return ($reminder->user_id == $user->id || $user->hasPermissionTo('reminder.delete')) ? 
+        Response::allow(): Response::denyAsNotFound();
     }
 
     /**

@@ -23,6 +23,7 @@ return [
     'address' => 'c,r,u,d',
     'booking' => 'c,r,u,d',
     'rating' => 'c,r,u,d',
+    'reminder' => 'c,r,u,d',
     'specific' => [
         'all',
         'dashboard.admin'

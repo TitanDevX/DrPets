@@ -24,7 +24,6 @@ class ServiceFactory extends Factory
             'price' => $this->faker->randomFloat(1,1,1000),
             'category_id' => Category::inRandomOrder()->first()->id ?? Category::factory()->create()->id,
             'provider_id' => Provider::inRandomOrder()->first()->id ?? Provider::factory()->create()->id,
-            'pet_id' => Pet::inRandomOrder()->first()->id ?? Pet::factory()->create()->id,
         ]
         ;
     }
