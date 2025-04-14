@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\PetController;
+use App\Http\Controllers\api\ReminderController;
 use App\Http\Controllers\api\ServiceController;
 use App\Http\Middleware\AddDataMiddleware;
+use App\Models\Reminder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +19,7 @@ Route::middleware(['auth:sanctum', AddDataMiddleware::class])->group(function ()
     Route::get('resendOtp',[AuthController::class, 'resendOtp']);
 
     Route::apiResource('pet', PetController::class);
+    Route::apiResource('reminder',ReminderController::class);
     
 });
 Route::get('/user', function (Request $request) {

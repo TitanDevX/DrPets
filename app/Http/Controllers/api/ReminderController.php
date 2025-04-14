@@ -31,7 +31,7 @@ class ReminderController extends Controller
      */
     public function store(StoreReminderRequest $request)
     {
-        $data = $request->validated();
+        $data = $request->afterValidation();
         
 
         $rem =$this->reminderService->storeReminder($data);
@@ -57,7 +57,7 @@ class ReminderController extends Controller
      */
     public function update(UpdateReminderRequest $request, $id)
     {
-        $data = $request->validated();
+        $data = $request->afterValidation();
 
         $rem = Reminder::find($id);
         Gate::authorize('update',[$rem]);

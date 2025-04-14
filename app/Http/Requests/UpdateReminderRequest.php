@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ReminderTimeValidation;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateReminderRequest extends FormRequest
 {
@@ -11,7 +14,7 @@ class UpdateReminderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +24,18 @@ class UpdateReminderRequest extends FormRequest
      */
     public function rules(): array
     {
+        
         return [
-            //
+            'text' => [ 'max:128', 'string'],
+            'time' => [new ReminderTimeValidation()],
         ];
+    }
+    public function afterValidation(){
+        $data = $this->validated();
+        if(isset($data['time'])){
+        $v = Carbon::parse($data['time']);
+        $data['time'] = $v->utc();
+        }
+        return $data;
     }
 }
