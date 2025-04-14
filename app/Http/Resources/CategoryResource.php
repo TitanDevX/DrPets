@@ -20,7 +20,7 @@ class CategoryResource extends JsonResource
             'name' => $this->name,
             'description' => $this->description,
             'enabled' => $this->enabled,
-            'type' => CategoryType::from($this->type)
+            'type' => $this->type->name
         ];
     }
 }
