@@ -26,7 +26,8 @@ return [
     'reminder' => 'c,r,u,d',
     'specific' => [
         'all',
-        'dashboard.admin'
+        'dashboard.admin',
+        'sitesettings.tax'
     ]
 ],
   
