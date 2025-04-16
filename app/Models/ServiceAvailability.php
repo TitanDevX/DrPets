@@ -16,4 +16,7 @@ class ServiceAvailability extends Model
     public function service(){
         return $this->belongsTo(Service::class);
     }
+    public function bookings(){
+        return $this->hasMany(Booking::class);
+    }
 }

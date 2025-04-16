@@ -27,4 +27,8 @@ class Booking extends Model
     public function service(){
         return $this->belongsTo(Service::class);
     }
+    public function serviceSlot(){
+        return $this->belongsTo(ServiceAvailability::class);
+    }
+    
 }
