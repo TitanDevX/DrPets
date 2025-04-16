@@ -26,9 +26,10 @@ return new class extends Migration
             $table->double('total');
             $table->timestamps();
         });
-        Schema::create('invoice_contents', function (Blueprint $table) {
+        Schema::create('invoice_items', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Invoice::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->integer('quantity')->default(1);
             $table->morphs('invoicable'); //product or service.
         });
     }
@@ -39,5 +40,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('invoices');
+        Schema::dropIfExists('invoice_items');
     }
 };

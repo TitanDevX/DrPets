@@ -21,6 +21,9 @@ class Invoice extends Model
     public function promoCode(){
         return $this->belongsTo(PromoCode::class);
     }
+    public function contents(){ 
+        return $this->hasMany(InvoiceItem::class);
+    }
 
     
 }

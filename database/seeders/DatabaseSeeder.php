@@ -8,6 +8,7 @@ use App\Models\Cart;
 use App\Models\Category;
 use App\Models\Invoice;
 use App\Models\InvoiceContent;
+use App\Models\InvoiceItem;
 use App\Models\Pet;
 use App\Models\Product;
 use App\Models\PromoCode;
@@ -67,7 +68,7 @@ class DatabaseSeeder extends Seeder
             $invoice->total = $invoice->subTotal+$invoice->fee+$invoice->tax ;
             $invoice->save();
             foreach ($prs as $key => $value) {
-                $c = InvoiceContent::factory()->for($invoice,'invoice')
+                $c = InvoiceItem::factory()->for($invoice,'invoice')
                 ->for($value,'invoicable')
                 ->create();
             }

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\InvoiceContent>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\InvoiceItem>
  */
-class InvoiceContentFactory extends Factory
+class InvoiceItemFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class InvoiceContentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'quantity' => $this->faker->randomNumber(2),
         ];
     }
 }
