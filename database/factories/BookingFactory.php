@@ -18,7 +18,7 @@ class BookingFactory extends Factory
     public function definition(): array
     {
         return [
-            'time' => Carbon::parse($this->faker->dateTimeBetween('now', '+1 month'))->minute(0)->second(0),
+            'date' => Carbon::parse($this->faker->dateTimeBetween('now', '+1 month'))->minute(0)->second(0),
         ];
     }
 }

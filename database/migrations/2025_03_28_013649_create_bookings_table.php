@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreignIdFor(Service::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(ServiceAvailability::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->tinyInteger('status')->default(BookingStatus::PENDING->value);
-            $table->dateTime('time');
+            $table->date('date');
             $table->timestamps();
         });
     }
