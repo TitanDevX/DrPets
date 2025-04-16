@@ -4,6 +4,7 @@ use App\Enums\BookingStatus;
 use App\Models\Invoice;
 use App\Models\Pet;
 use App\Models\Service;
+use App\Models\ServiceAvailability;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,8 +22,9 @@ return new class extends Migration
             $table->foreignIdFor(Invoice::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Pet::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(Service::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->tinyInteger('status')->default(BookingStatus::UNSET->value);
-            $table->time('time');
+            $table->foreignIdFor(ServiceAvailability::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->tinyInteger('status')->default(BookingStatus::PENDING->value);
+            $table->dateTime('time');
             $table->timestamps();
         });
     }

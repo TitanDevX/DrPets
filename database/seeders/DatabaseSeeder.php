@@ -46,7 +46,18 @@ class DatabaseSeeder extends Seeder
         for($i = 0;$i<5;$i++){
             $pet = Pet::factory()->for($user)->create();
             $service = Service::factory()->create();
-         
+
+                $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri','Sat', 'Sun'];
+                for($di = 0;$di<7;$di++){
+                    $day = $days[$di];
+                    if(fake()->boolean(rand(1,100))){
+                        ServiceAvailability::factory()->for($service, 'service')->create([
+                            'day' => $day
+                        ]);
+                    }
+                }
+               
+    
             $invoice = Invoice::factory()->for($user, 'user')->for(PromoCode::factory(), 'promoCode')->make();
             $prs = Product::factory()->count(5)->create();
             foreach ($prs as $key => $value) {
@@ -60,18 +71,11 @@ class DatabaseSeeder extends Seeder
                 ->for($value,'invoicable')
                 ->create();
             }
-            Booking::factory()->for($pet)->for($invoice)->for($service)->create();
+            Booking::factory()->for($pet)->for($invoice)->for($service)->create([
+                'service_availability_id' => ServiceAvailability::where('service_id', '=', $service->id)->inRandomOrder()->first()->id
+            ]);
         }
         }
-       
-        User::factory()->count(10)->create();
-        Provider::factory()->count(10)->create();
-        for($i = 0;$i<100;$i++){
-            Address::factory()->count(4)->for(User::factory(),'addressable')->create();
-        }
-        Reminder::factory()->count(50)->create();
-
-        Product::factory()->count(100)->create();
         for($i = 0;$i<100;$i++){
 
             $service = Service::factory()->create();
@@ -87,6 +91,15 @@ class DatabaseSeeder extends Seeder
            
 
         }
+        User::factory()->count(10)->create();
+        Provider::factory()->count(10)->create();
+        for($i = 0;$i<100;$i++){
+            Address::factory()->count(4)->for(User::factory(),'addressable')->create();
+        }
+        Reminder::factory()->count(50)->create();
+
+        Product::factory()->count(100)->create();
+      
         Pet::factory()->count(50)->create();
         Cart::factory()->count(50)->create();
       

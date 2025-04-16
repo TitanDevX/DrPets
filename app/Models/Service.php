@@ -20,7 +20,7 @@ class Service extends Model
         return $this->hasMany(ServiceAvailability::class);
     }
 
-    public function booking(){
+    public function bookings(){
         return $this->hasMany(Booking::class);
     }
  
