@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\PetController;
 use App\Http\Controllers\api\ReminderController;
 use App\Http\Controllers\api\ServiceController;
@@ -20,6 +21,8 @@ Route::middleware(['auth:sanctum', AddDataMiddleware::class])->group(function ()
 
     Route::apiResource('pet', PetController::class);
     Route::apiResource('reminder',ReminderController::class);
+
+    Route::get('bookings', [BookingController::class, 'index']);
     
 });
 Route::get('/user', function (Request $request) {
