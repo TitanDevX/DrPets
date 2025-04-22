@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->morphs('addressable');
             $table->string('country',3);
-            $table->string("street");
-            $table->string('city');
-            $table->string('details');
+            $table->string("street")->nullable();
+            $table->string('city')->nullable();
+            $table->string('details')->nullable();
             $table->double('long');
             $table->double('lat');
+            
             $table->timestamps();
         });
     }
