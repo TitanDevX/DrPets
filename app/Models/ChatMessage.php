@@ -16,6 +16,6 @@ class ChatMessage extends Model
         return $this->belongsTo(Chat::class);
     }
     public function sender(){
-        return $this->morphTo('sender');
+        return $this->belongsTo(User::class,'sender_id');
     }
 }

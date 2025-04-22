@@ -10,7 +10,8 @@ class Provider extends Model
     use HasFactory;
     protected $guarded = ['id','created_at', 'deleted_at'];
 
-    public function address(){
-        return $this->morphOne(Address::class,"adressable");
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 }

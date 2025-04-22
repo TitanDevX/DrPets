@@ -6,6 +6,8 @@ use App\Models\Booking;
 use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 class ServiceService {
 
     public function all($data = [], $withes = [], $paginated = true){
@@ -33,9 +35,35 @@ class ServiceService {
             });
          
         }]);
-        $allowedRelationships = ['provider', 'category'];
-    
-        
+
+        $user = Auth::guard('sanctum')->user();
+        if($user){
+            $userAddress = $user->address;
+
+            if($userAddress){
+                $lat = $userAddress->lat;
+                $lng = $userAddress->long;
+                $services = $services->join('addresses', function ($join) {
+                    $join->on('addresses.addressable_id', '=', 'services.id')
+                         ->where('addresses.addressable_type', Service::class);
+                })
+                ->selectRaw("services.*, 
+                    MIN(
+                        6371 * acos(
+                            cos(radians(?)) *
+                            cos(radians(addresses.lat)) *
+                            cos(radians(addresses.long) - radians(?)) +
+                            sin(radians(?)) *
+                            sin(radians(addresses.lat))
+                        )
+                    ) as distance
+                ", [$lat, $lng, $lat])
+                ->groupBy(['services.id'])
+                ->orderBy('distance');
+            }
+        }
+       
+        $allowedRelationships = ['provider', 'category', 'addresses'];
         if($withes != null){
         $relations = collect( $withes)
         ->intersect($allowedRelationships)

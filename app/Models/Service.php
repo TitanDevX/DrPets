@@ -20,6 +20,9 @@ class Service extends Model
         return $this->hasMany(ServiceAvailability::class);
     }
 
+    public function addresses(){
+        return $this->morphMany(Address::class, 'addressable');
+    }
     public function bookings(){
         return $this->hasMany(Booking::class);
     }

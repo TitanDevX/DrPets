@@ -22,6 +22,7 @@ class ServiceResource extends JsonResource
             'provider' => ProviderResource::make($this->whenLoaded('provider')),
             'pet' => PetResource::make($this->whenLoaded('pet')),
             'availablity' => ServiceAvailablityResource::collection($this->whenLoaded('availablity')),
+            'addresses' => AddressResource::collection($this->whenLoaded('addresses')),
         ];
     }
 }
