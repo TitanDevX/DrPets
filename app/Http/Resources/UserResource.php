@@ -20,6 +20,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'email'=>$this->email,
             'email_verfied' => $this->email_verified_at != null,
+            'addresses' => AddressResource::collection($this->whenLoaded('addresses')),
         ];
     }
 }
