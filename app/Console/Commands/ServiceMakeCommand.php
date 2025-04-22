@@ -12,7 +12,7 @@ class ServiceMakeCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'make:service {name} {--api}';
+    protected $signature = 'make:service {name} {--api} {--nc}';
 
     /**
      * The console command description.
@@ -65,9 +65,13 @@ class {$serviceClassName}
         File::ensureDirectoryExists(dirname($controllerPath));
         File::ensureDirectoryExists(dirname($servicePath));
         File::put($servicePath, $serviceStub);
-        File::put($controllerPath, $controllerStub);
+        
+       
         $this->components->info("<fg=white>Service <options=bold>[{$this->relativePath($servicePath)}]</> created successfully</>.");
-        $this->components->info("<fg=white>Controller <options=bold>[{$this->relativePath($controllerPath)}]</> created successfully</>.");
+        if(!$this->option('nc')){
+            File::put($controllerPath, $controllerStub);
+            $this->components->info("<fg=white>Controller <options=bold>[{$this->relativePath($controllerPath)}]</> created successfully</>.");
+        }
     }
   
 
