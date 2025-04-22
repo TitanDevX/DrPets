@@ -51,7 +51,7 @@ class UsersSeeder extends Seeder
             for ($i = 0; $i < 5; $i++) {
                 $pet = Pet::factory()->for($user)->create();
                 $service = Service::factory()->create();
-
+                Address::factory()->for($service, 'addressable')->create();
                 $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
                 for ($di = 0; $di < 7; $di++) {
                     $day = $days[$di];

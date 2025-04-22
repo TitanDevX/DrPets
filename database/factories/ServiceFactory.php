@@ -23,7 +23,7 @@ class ServiceFactory extends Factory
             'name' => substr($this->faker->sentence(3),0,30),
             'price' => $this->faker->randomFloat(1,1,1000),
             'category_id' => Category::inRandomOrder()->first()->id ?? Category::factory()->create()->id,
-            'provider_id' => Provider::inRandomOrder()->first()->id ?? Provider::factory()->create()->id,
+            'provider_id' => Provider::inRandomOrder()->first()->id
         ]
         ;
     }

@@ -2,7 +2,10 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\ErrorHandler\Debug;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Provider>
@@ -17,8 +20,6 @@ class ProviderFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name(),
-            'email' => $this->faker->safeEmail(),
             'delivery_fee_per_km' => $this->faker->randomFloat(1,0.1,10)
         ];
     }

@@ -35,9 +35,18 @@ class DatabaseSeeder extends Seeder
         resolve(PermissionSeeder::class)->run();
         resolve(UsersSeeder::class)->run();
      
+     
+       
+        for($i = 0;$i<10;$i++){
+           $user = User::factory()->create();
+           Provider::factory()->create([
+            'user_id' => $user->id
+           ]);
+        }
         for ($i = 0; $i < 100; $i++) {
 
             $service = Service::factory()->create();
+            Address::factory()->for($service, 'addressable')->create();
             $days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
             for ($di = 0; $di < 7; $di++) {
                 $day = $days[$di];
@@ -50,14 +59,6 @@ class DatabaseSeeder extends Seeder
 
 
         }
-       
-        for($i = 0;$i<10;$i++){
-           $user = User::factory()->create();
-           Provider::factory()->create([
-            'user_id' => $user->id
-           ]);
-        }
-       
        
         for ($i = 0; $i < 100; $i++) {
             Address::factory()->count(4)->for(User::factory(), 'addressable')->create();
