@@ -29,8 +29,8 @@ class InvoiceItemResource extends JsonResource
     switch (get_class($this->invoicable)) {
         case \App\Models\Product::class:
             return new ProductResource($this->invoicable);
-        case \App\Models\Service::class:
-            return new ServiceResource($this->invoicable);
+        case \App\Models\Booking::class:
+            return new BookingResource($this->invoicable);
         default:
             return null;
     }

@@ -13,7 +13,8 @@ class BookingService
 {
 
     public function __construct(protected InvoiceService $invoiceService,
-    protected ChatService $chatService){}
+    protected ChatService $chatService,
+    protected NotificationService $notificationService){}
     public function all($user, $data, $paginated = true){
 
         $bookings = Booking::whereHas('pet.user', function ($query) use ($user) {
@@ -52,13 +53,38 @@ class BookingService
 
     }
 
-    public function updateStatus($booking, BookingStatus $newStatus){
+    public function updateStatus(Booking $booking, BookingStatus $newStatus){
 
+        $user = $booking->pet->user;
         $booking->update([
             'status' => $newStatus->value
         ]);
+
         if($newStatus == BookingStatus::ACCEPTED){
-            
+
+
+        
+            $service = $booking->service;
+             $invoice = $this->invoiceService->createInvoice($user->id, items: [
+            'quantity' => 1,
+             'invoicable_type' => get_class($service),
+             'invoicable_id' => $service->id]);
+             $booking->update([
+                'invoice_id' => $invoice->id,
+            ]);
+
+             $this->notificationService->send($user->token, [__('notif.booking_accepted_title'), 
+             __('notification.booking_accepted_body')],
+            ['booking_id' => $booking->id, 'invoice_id' => $invoice->id]);
+      
+        
+        }else if($newStatus == BookingStatus::REJECTED){
+            $this->notificationService->send($user->token, [__('notif.booking_rejected_title'), 
+            __('notification.booking_rejected_body')]);
+   
+        }else if($newStatus == BookingStatus::CANCELLED){
+            $this->notificationService->send($user->token, [__('notif.booking_cancelled_title'), 
+            __('notification.booking_cancelled_body')]);
         }
 
 
