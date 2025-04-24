@@ -2,6 +2,7 @@
 
 use App\Enums\BookingStatus;
 use App\Models\Booking;
+use App\Services\BookingService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schedule;
@@ -12,22 +13,20 @@ Artisan::command('inspire', function () {
 Schedule::call(function () {
     $bookings =Booking::where('status', 'pending')
     ->where('created_at', '<', now()->subHours(12))->get();
+    $bookingService = resolve(BookingService::class);
     foreach($bookings as $booking){
-        $booking->update([
-            'status' => BookingStatus::REJECTED->value
-        ]);
+        $bookingService->updateStatus($booking,BookingStatus::REJECTED );
     }    
-    // TODO notify user 
 })->everyMinute();
 Schedule::call(function () {
     $bookings = Booking::where('status', 'accepted')
         ->whereNull('paid_at')
         ->where('accepted_at', '<', now()->subHour())->get();
+    $bookingService = resolve(BookingService::class);
     foreach($bookings as $booking){
-        $booking->update([
-            'status' => BookingStatus::CANCELLED->value,
-        ]);
+        
+        $bookingService->updateStatus($booking,BookingStatus::CANCELLED );
+      
     }    
         
-        // TODO notify user 
 })->everyMinute();
