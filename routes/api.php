@@ -3,6 +3,7 @@
 use App\Http\Controllers\api\AddressController;
 use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\BookingController;
+use App\Http\Controllers\api\InvoiceController;
 use App\Http\Controllers\api\PetController;
 use App\Http\Controllers\api\ReminderController;
 use App\Http\Controllers\api\ServiceController;
@@ -29,6 +30,9 @@ Route::middleware(['auth:sanctum', AddDataMiddleware::class])->group(function ()
 
     Route::post('address', [AddressController::class, 'store']);
     Route::get('address', [AddressController::class, 'index']);
+
+    Route::post('/invoice/apply-promo-code', [InvoiceController::class,'applyPromoCode']);
+    
 });
 Route::get('/user', function (Request $request) {
     return $request->user();
