@@ -22,9 +22,10 @@ class InvoiceResource extends JsonResource
             'subtotal' => $this->subtotal,
             'tax' => $this->tax,
             'fee' => $this->fee,
-            'promoCode' => PromoCode::make($this->whenLoaded('promoCode')),
+            'promoCode' => $this->whenLoaded('promoCode'),
+            'total' => $this->total,
             'user' => UserResource::make($this->whenLoaded('user')),
-            'items' => InvoiceItemResource::collection($this->contents),
+            'type' => $this->type->name
             
         ];
     }

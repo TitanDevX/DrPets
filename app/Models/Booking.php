@@ -17,6 +17,9 @@ class Booking extends Model
         'status' => BookingStatus::class
     ];
 
+    protected $attributes = [
+        'status' => BookingStatus::PENDING, // or 'pending' if string
+    ];
     public function pet(){
         return $this->belongsTo(Pet::class);
     }
@@ -29,6 +32,9 @@ class Booking extends Model
     }
     public function serviceSlot(){
         return $this->belongsTo(ServiceAvailability::class);
+    }
+    public function getPrice(){
+        return $this->service->price;
     }
     
 }

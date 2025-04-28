@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\InvoiceStatus;
+use App\Enums\InvoiceTypeEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,10 @@ class Invoice extends Model
 
     protected $casts = [
         'status' => InvoiceStatus::class,
+        'type' => InvoiceTypeEnum::class,
+    ];
+    protected $attributes = [
+        'status' => InvoiceStatus::PENDING, // or 'pending' if string
     ];
     public function user(){
         return $this->belongsTo(User::class);
@@ -21,9 +26,13 @@ class Invoice extends Model
     public function promoCode(){
         return $this->belongsTo(PromoCode::class);
     }
-    public function contents(){ 
-        return $this->hasMany(InvoiceItem::class);
+   
+    public function booking(){
+        return $this->hasOne(Booking::class);
     }
-
+    public function order(){
+        return $this->hasOne(Order::class);
+    }
+   
     
 }

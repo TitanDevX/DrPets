@@ -24,11 +24,12 @@ class StoreAddressRequest extends FormRequest
         return [
             'country' => ['required','string', 'max:3'],
             'street' => ['string'],
-            'city' => ['city'],
+            'city' => ['string'],
             'details' => ['string'],
-            'lat' => ['required', 'decimal'],
-            'long' => ['required', 'decimal'],
+            'lat' => ['required', 'decimal:0,5'],
+            'long' => ['required', 'decimal:0,5'],
         ];
     }
 
+   
 }

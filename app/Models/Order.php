@@ -20,10 +20,26 @@ class Order extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
-    public function provider(){
-        return $this->belongsTo(Provider::class);
-    }
+
     public function invoice(){
         return $this->belongsTo(Invoice::class);
     }
+    public function orderProducts()
+    {
+        return $this->hasMany(OrderProduct::class);
+    }
+    public function orderProviders()
+    {
+        return $this->hasMany(OrderProvider::class);
+    }
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'order_products');
+    }
+    public function providers()
+    {
+        return $this->belongsToMany(Provider::class, 'order_providers');
+    }
+
+ 
 }

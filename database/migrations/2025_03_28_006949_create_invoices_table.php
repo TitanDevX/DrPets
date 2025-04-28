@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Booking;
 use App\Models\Invoice;
+use App\Models\Order;
 use App\Models\PromoCode;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -17,21 +19,17 @@ return new class extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-           
             $table->tinyInteger('status');
+            $table->tinyInteger('type');
             $table->double('subtotal');
             $table->double('tax');
             $table->double('fee');
             $table->foreignIdFor(PromoCode::class)->nullable();
             $table->double('total');
+            
             $table->timestamps();
         });
-        Schema::create('invoice_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Invoice::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->integer('quantity')->default(1);
-            $table->morphs('invoicable'); //product or service.
-        });
+       
     }
 
     /**

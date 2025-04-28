@@ -2,8 +2,11 @@
 
 namespace App\Services;
 
+use App\Enums\InvoiceStatus;
+use App\Events\PaymentRefundEvent;
 use App\Events\PaymentSuccessfulEvent;
 use App\Models\Payment;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Stripe\Checkout\Session;
@@ -12,6 +15,8 @@ use App\Enums\PackageSubscriptionStatusEnum;
 use App\Enums\PaymentStatusEnum;
 use App\Models\Order;
 use App\Models\RestaurantAdminPackage;
+use Stripe\Exception\ApiErrorException;
+use Stripe\Refund;
 use Stripe\Stripe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log as FacadesLog;
@@ -60,6 +65,7 @@ class StripeService
                 'livemode' => $session->livemode,
             ];
             $payment->update(['data' => json_encode($data)]);
+    
             DB::commit();
         } catch (\Exception $e) {
             FacadesLog::error($e->getMessage());
@@ -68,7 +74,7 @@ class StripeService
         return $payment;
     }
 
-    public function success($data)
+    public function success($data, $test = false)
     {
         DB::beginTransaction();
         try {
@@ -78,15 +84,23 @@ class StripeService
             $payment_id = $session->client_reference_id;
             /** @var \App\Models\Payment $payment */
             $payment = Payment::findOrFail($payment_id);
-            if ($session->payment_status == 'paid') {
-                $payment->update(['status' => PaymentStatusEnum::PAID->value]);
-               event(new PaymentSuccessfulEvent($payment));
+            if ($session->payment_status == 'paid' || $test == true) {
+                if($session->amount_subtotal/100 > $payment->invoice->total){ // Happens if promocode was applied to invoice after the session got generated.
+
+                    $this->refund([$payment], 'Got invlaid amount. amount paid is greater than invoice\'s totam amount.');
+                    return "Payment is refunded. Got invlaid amount. amount paid is greater than invoice\'s totam amount.";
+                }else{
+                    $payment->update(['status' => PaymentStatusEnum::PAID->value]);
+                    event(new PaymentSuccessfulEvent($payment));
+                }
+             
                 
 
             } else if ($session->payment_status == 'unpaid') {
                 $payment->update(['status' => PaymentStatusEnum::FAILED->value]);
                 
             }
+            
             DB::commit();
         } catch (\Exception $e) {
             FacadesLog::error($e->getMessage());
@@ -105,13 +119,34 @@ class StripeService
             $payment_id = $session->client_reference_id;
             $payment = Payment::find($payment_id);
             if ($session->payment_status == 'unpaid') {
-                $payment->update(['status' => PaymentStatusEnum::FAILED->value]);
+                $payment->update(['status' => PaymentStatusEnum::CANCELED->value]);
+
             }
+          
             DB::commit();
         } catch (\Exception $e) {
             FacadesLog::error($e->getMessage());
             DB::rollBack();
         }
         return $payment;
+    }
+
+    public function refund($payments = [], $cause){
+        foreach($payments as $payment){
+            $data = $payment->data;
+            if(!isset($data['session_id'])) continue;
+            $sessionId = $data['session_id'];
+            $session = Session::retrieve($sessionId);
+            $paymentIntentId = $session->payment_intent;
+            try{
+            $refund = Refund::create([
+                'payment_intent' => $paymentIntentId,
+                'amount' => $payment->amount * 100,
+            ]);
+            }catch(ApiErrorException $e){
+                continue;
+            }
+            event(new PaymentRefundEvent($payment, $cause));
+        }
     }
 }

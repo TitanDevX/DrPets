@@ -30,4 +30,8 @@ return [
 
     'payment_cancelled_title' => 'Your payment has been cancelled',
     'payment_cancelled_body' => '',
+
+    
+    'payment_refund_title' => 'Your payment has been refunded',
+    'payment_refund_body' => 'Payment #:id has been cancelled because :cause',
 ];

@@ -17,7 +17,7 @@ class PaymentResource extends JsonResource
         return [
             'id' => $this->id,
             'invoice' => InvoiceResource::make($this->whenLoaded('invoice')),
-            'data' => $this->data,
+            'data' => json_decode($this->data),
             'amount' => $this->amount,
             'status' => $this->status->name,
         ];

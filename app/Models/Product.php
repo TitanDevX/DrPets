@@ -17,6 +17,23 @@ class Product extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
+    public function orderProducts()
+    {
+        return $this->belongsToMany(Order::class, 'order_product');
+    }
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class, 'order_products');
+    }
+    public function getPrice(){
+        return $this->price;
+    }
   
 
 }

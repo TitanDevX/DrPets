@@ -31,11 +31,10 @@ class PetService {
 
         });
 
-        $allowedRelationships = ['breed', 'user', 'services','services.provider','services.availablity'];
+        $allowedRelationships = ['breed', 'user', 'bookings','bookings.service.provider','bookings.serviceSlot'];
     
         
         if($withes != null){
-        // Parse and validate ?with=param
         $relations = collect( $withes)
         ->intersect($allowedRelationships)
          ->all();

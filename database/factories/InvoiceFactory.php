@@ -22,6 +22,7 @@ class InvoiceFactory extends Factory
             'status'=> InvoiceStatus::PENDING->value,
             'fee' => $this->faker->randomFloat(1),
             'tax' => $this->faker->randomFloat(1)
+
         ];
     }
 }

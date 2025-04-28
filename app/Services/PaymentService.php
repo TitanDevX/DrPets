@@ -22,5 +22,14 @@ class PaymentService
         $session = $this->stripeService->createCheckoutSession($payment);
         return $payment;
     }
+    public function getInvoicePayments($invoiceId){
+
+        return Payment::where('invoice_id', '=', $invoiceId)->get();
+
+    }
+    public function refundInvoice($invoice, $cause = "no reason"){
+        $payments = $this->getInvoicePayments($invoice->id);
+        $this->stripeService->refund($payments,$cause);
+    }
 
 }

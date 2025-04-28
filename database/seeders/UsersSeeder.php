@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\InvoiceTypeEnum;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Address;
@@ -34,8 +35,8 @@ class UsersSeeder extends Seeder
             ]);
             Address::factory()->count(1)->for($user, 'addressable')->create();
             
-            Provider::factory()->count(1)->for( $user, 'user')->create();
-
+            $prov = Provider::factory()->for( $user, 'user')->create();
+            Address::factory()->for($prov, 'addressable')->create();
         }
         if (!User::where('name', '=', 'Test User')->exists()) {
             $user = User::factory()->create([
@@ -63,7 +64,9 @@ class UsersSeeder extends Seeder
                 }
 
 
-                $invoice = Invoice::factory()->for($user, 'user')->for(PromoCode::factory(), 'promoCode')->make();
+                $invoice = Invoice::factory()->for($user, 'user')->for(PromoCode::factory(), 'promoCode')->make([
+                    'type' => InvoiceTypeEnum::ORDER->value,
+                ]);
                 $prs = Product::factory()->count(5)->create();
                 foreach ($prs as $key => $value) {
                     $invoice->subTotal += $value->price;
@@ -71,14 +74,15 @@ class UsersSeeder extends Seeder
 
                 $invoice->total = $invoice->subTotal + $invoice->fee + $invoice->tax;
                 $invoice->save();
-                foreach ($prs as $key => $value) {
-                    $c = InvoiceItem::factory()->for($invoice, 'invoice')
-                        ->for($value, 'invoicable')
-                        ->create();
-                }
-                Booking::factory()->for($pet)->for($invoice)->for($service)->create([
+                $invoice = Invoice::factory()->for($user, 'user')->for(PromoCode::factory(), 'promoCode')->make([
+                    'type' => InvoiceTypeEnum::BOOKING->value,
+                ]);
+                $booking = Booking::factory()->for($pet)->for($invoice)->for($service)->create([
                     'service_availability_id' => ServiceAvailability::where('service_id', '=', $service->id)->inRandomOrder()->first()->id
                 ]);
+                $invoice->subTotal= $service->price;
+                $invoice->total = $invoice->subTotal + $invoice->fee + $invoice->tax;
+                $invoice->save();
             }
         }
 

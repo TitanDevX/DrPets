@@ -14,10 +14,12 @@ class InvoiceItemResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $invoicable = $this->invoicable;
+        $key = class_basename($invoicable);
         return [
             'id' => $this->id,
             'quantity' => $this->quantity,
-            'invoicable' => $this->formatInvoiceContent()
+            $key => $this->formatInvoiceContent()
         ];
     }
     protected function formatInvoiceContent()

@@ -24,7 +24,12 @@ class ServiceService {
             $query->when(isset($data['maxPrice']), function ($query) use ($data) {
                 $query->where('price', '<=', $data['maxPrice']);
             });
-        });
+        })->when(isset($data['category']),function ($query) use ($data) {
+            $query->whereHas('category', function ($query) use ($data) {
+                $query->where('name', 'like' , "$%{$data['category']}%");
+            });
+            
+        });;
 
         $services = $services->with(['availablity' => function (Builder $query)  {
 

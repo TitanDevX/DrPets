@@ -17,10 +17,9 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Invoice::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignIdFor(Provider::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->tinyInteger('status')->default(OrderStatus::IN_PREPARATION->value);
+            $table->foreignIdFor(Invoice::class);
+            $table->tinyInteger('status')->default(OrderStatus::UN_PAID->value); // Global status 
             $table->timestamps();
         });
     }

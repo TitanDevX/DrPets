@@ -39,9 +39,10 @@ class DatabaseSeeder extends Seeder
        
         for($i = 0;$i<10;$i++){
            $user = User::factory()->create();
-           Provider::factory()->create([
+           $provider = Provider::factory()->create([
             'user_id' => $user->id
            ]);
+           Address::factory()->for($provider, 'addressable')->create();
         }
         for ($i = 0; $i < 100; $i++) {
 

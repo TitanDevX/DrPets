@@ -25,14 +25,14 @@ class BookRequest extends FormRequest
         return [
             'pet_id' => ['required', 'exists:pets,id'],
             'service_id' => ['required', 'exists:services,id'],
-            'service_availablity_id' => ['required', 'exists:service_availabilities,id'],
-            'promo_code_id' => ['exists:promo_codes,id'],
+            'service_availability_id' => ['required', 'exists:service_availabilities,id'],
+            'date' => ['required', 'date']
         ];
     }
 
     public function afterValidation(){
         $data = $this->validated();
-        $data['user_id'] = auth()->user();
+        $data['user_id'] = auth()->user()->id;
         return $data;
     }
 }
