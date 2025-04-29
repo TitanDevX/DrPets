@@ -10,6 +10,8 @@ class OrderProvider extends Pivot
         /** @use HasFactory<\Database\Factories\OrderProductFactory> */
         use HasFactory;
 
+
+        public $table = "order_providers";
         protected $guarded = ['id', 'updated_at', 'created_at'];
     
         public function order(){

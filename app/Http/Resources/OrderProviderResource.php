@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\OrderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProviderResource extends JsonResource
+class OrderProviderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +17,9 @@ class ProviderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => UserResource::make($this->whenLoaded('user')),
-            'name' => $this->user->name,
-           
-            'delivery_fee_per_km' => $this->delivery_fee_per_km
+            'order_id' => $this->order_id,
+            'provider_id' => $this->provider_id,
+            'status' => OrderStatus::from($this->status)->name,
         ];
     }
 }

@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
         resolve(BreedSeeder::class)->run();
         resolve(PermissionSeeder::class)->run();
         resolve(UsersSeeder::class)->run();
-     
+        resolve(SettingsSeeder::class)->run();
      
        
         for($i = 0;$i<10;$i++){

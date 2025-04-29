@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProviderResource extends JsonResource
+class RatingResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,9 @@ class ProviderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => UserResource::make($this->whenLoaded('user')),
-            'name' => $this->user->name,
-           
-            'delivery_fee_per_km' => $this->delivery_fee_per_km
+            'rate' => $this->rate,
+            'text' => $this->text,
         ];
     }
+    
 }

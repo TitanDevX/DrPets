@@ -11,8 +11,8 @@ class OrderController extends Controller
     public function index(){
 
         $user = auth()->user();
-        return $this->res(OrderResource::collection($this->orderService->all($user,withes: ['provider',
-        'orderProducts'])));
+        return $this->res(OrderResource::collection($this->orderService->all($user,withes: [
+        'orderProducts','orderProviders'])));
     }
 
 

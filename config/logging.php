@@ -57,7 +57,11 @@ return [
             'channels' => explode(',', env('LOG_STACK', 'single')),
             'ignore_exceptions' => false,
         ],
-
+        'schedules' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/schedules.log'),
+            'ignore_exceptions' => false,
+        ],
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),

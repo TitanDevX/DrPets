@@ -5,8 +5,10 @@ use App\Http\Controllers\api\AuthController;
 use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\CartController;
 use App\Http\Controllers\api\InvoiceController;
+use App\Http\Controllers\api\OrderController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\PetController;
+use App\Http\Controllers\api\RatingController;
 use App\Http\Controllers\api\ReminderController;
 use App\Http\Controllers\api\ServiceController;
 use App\Http\Controllers\UserController;
@@ -21,6 +23,8 @@ Route::get('/service', [ServiceController::class,'index']);
 
 Route::get('/payment/success', [PaymentController::class, 'success'])->name('checkout.success');
 Route::get('/payment/cancel', [PaymentController::class, 'cancel'])->name('checkout.cancel');
+
+Route::get('/rating', [RatingController::class, 'index']);
 Route::middleware(['auth:sanctum', AddDataMiddleware::class])->group(function () {
    
     Route::get('logout',[AuthController::class, 'logout']);
@@ -33,7 +37,8 @@ Route::middleware(['auth:sanctum', AddDataMiddleware::class])->group(function ()
     Route::apiResource('reminder',ReminderController::class);
     Route::apiResource('cart', CartController::class);
     Route::apiResource('address', AddressController::class);
-
+    Route::apiResource('order', OrderController::class);
+    Route::apiResource('rating', RatingController::class)->except('index');
     Route::get('bookings', [BookingController::class, 'index']);
     Route::post('bookings', [BookingController::class, 'store']);
     Route::post('/bookings/{booking}/cancel', [BookingController::class, 'cancel']);
@@ -44,6 +49,7 @@ Route::middleware(['auth:sanctum', AddDataMiddleware::class])->group(function ()
   
     Route::post('/test/accept-booking', [BookingController::class,'testAcceptBooking']);
     Route::get('/test/success-pay', [PaymentController::class,'testSuccessPay']);
+    Route::post('/test/testDeliver',[BookingController::class,'testDeliver']);
 });
 Route::get('/user', function (Request $request) {
     return $request->user();

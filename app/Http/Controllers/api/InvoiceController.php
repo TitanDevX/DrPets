@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\InvoiceResource;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\PaymentResource;
 use App\Services\CartService;
 use App\Services\InvoiceService;
@@ -68,7 +69,8 @@ class InvoiceController extends Controller
         $subtotal = $this->cartService->calculateSubtotal($user, $carts);
         $invoice = $this->invoiceService->storeProductsInvoice($user, $fee, $subtotal);
         $order = $this->orderService->storeOrder($user,$carts,$invoice);
-        return $this->res(InvoiceResource::make($invoice));
+        return $this->res(['invoice' => InvoiceResource::make($invoice),
+    'order' => OrderResource::make($order)]);
         
     }
 }

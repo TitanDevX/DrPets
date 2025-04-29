@@ -11,4 +11,11 @@ class UserService
         $user->save();
     }
 
+
+    public function increaseRatingLimit($user){
+        $user->rating_limit++;
+
+        $user->save();
+    }
+   
 }

@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\api;
 use App\Enums\BookingStatus;
+use App\Enums\OrderStatus;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookRequest;
 use App\Http\Resources\BookingResource;
 use App\Http\Resources\ChatResource;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Booking;
+use App\Models\Order;
+use App\Models\Provider;
 use App\Services\BookingService;
+use App\Services\OrderService;
 use App\Services\PaymentService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -43,6 +47,19 @@ class BookingController extends Controller
     
         $invoice = $this->bookingService->updateStatus($data['booking_id'],BookingStatus::ACCEPTED);
         return $this->res(InvoiceResource::make($invoice));
+    }
+    public function testDeliver(Request $request){
+        $data = Validator::make($request->all(), [
+            'order_id' => ['required', 'exists:orders,id'],
+            'provider_id' => ['required', 'exists:providers,id']
+        ])->validated();
+
+    
+        $order = Order::findOrFail($data['order_id']);
+        $provider = Provider::findOr($data['provider_id']);
+        $orderService = resolve(OrderService::class);
+        $orderService->updateProviderStatus($provider,$order, OrderStatus::DELIVERED);
+        return $this->res();
     }
     public function cancel($id){
 

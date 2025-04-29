@@ -16,7 +16,9 @@ class Order extends Model
     protected $casts = [
         'status' => OrderStatus::class
     ];
-
+    protected $attributes = [
+        'status' => OrderStatus::UN_PAID, // or 'pending' if string
+    ];
     public function user(){
         return $this->belongsTo(User::class);
     }

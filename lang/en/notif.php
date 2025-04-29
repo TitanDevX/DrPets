@@ -31,7 +31,12 @@ return [
     'payment_cancelled_title' => 'Your payment has been cancelled',
     'payment_cancelled_body' => '',
 
-    
     'payment_refund_title' => 'Your payment has been refunded',
     'payment_refund_body' => 'Payment #:id has been cancelled because :cause',
+
+    'reminder_title' => 'DrPets Reminder!',
+    'reminder_body' => ':message',
+
+    'order_delivered_title' => 'Your order has been delivered',
+    'order_delivered_body' => 'Please rate your experience!',
 ];

@@ -17,10 +17,11 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'user' => UserResource::make($this->whenLoaded('user')),
-            'provider' => ProviderResource::make($this->whenLoaded("provider")),
+            'providers' => ProviderResource::collection($this->whenLoaded("providers")),
             'status' => $this->status,
             'products' => ProductResource::collection($this->whenLoaded('products')),
-            'orderProducts' => OrderProductResource::collection($this->whenLoaded('orderProducts'))
+            'orderProducts' => OrderProductResource::collection($this->whenLoaded('orderProducts')),
+            'orderProviders' => OrderProviderResource::collection($this->whenLoaded('orderProviders'))
         ];
     }
 }

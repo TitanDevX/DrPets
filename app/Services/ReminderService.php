@@ -5,6 +5,7 @@ use App\Models\Reminder;
 use Carbon\Carbon;
 class ReminderService {
 
+    public function __construct(protected NotificationService $notificationService){}
     public function all($user,$data =[], $paginated = true){
 
         $rem = Reminder::where('user_id', '=', $user->id)
@@ -27,5 +28,17 @@ class ReminderService {
 
         return $rem;
 
+    }
+    public function sendReminders(){
+        $reminders =Reminder::where('time', '<=',  Carbon::now())->get();
+       foreach($reminders as $reminder){
+            $user = $reminder->user;
+        $this->notificationService->send($user->fcm_token, [
+            __('notif.reminder_title'), __('notif.reminder_body', $reminder->text),
+            ['reminder_id' => $reminder->id]
+        ]);
+        $reminder->delete();
+    
+       } 
     }
 }
