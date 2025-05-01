@@ -43,15 +43,12 @@ class ServiceMakeCommand extends Command
             $controllerPath = app_path('Http\\Controllers\\' . $controllerClassName . '.php');
         }
         
-        $controllerStub = "<?php
-
-namespace {$controllerNamespace};
-use App\Http\Controllers\Controller;
-use {$serviceFullNamespace};
-class {$controllerClassName} extends Controller
-{
-    public function __construct(protected {$serviceClassName} \${$serviceVarName}){}
-}";
+        $controllerStub = file_get_contents(base_path('stubs/controller-service-api.stub'));
+        $controllerStub = str_replace(
+            ['{{ namespace }}','{{ rootNamespace }}','{{ class }}', '{{ serviceFullNamespace }}', '{{ serviceClassName }}', '{{ serviceVarName }}'],
+            [$controllerNamespace, 'App\\',$controllerClassName, $serviceFullNamespace, $serviceClassName, $serviceVarName, ],
+            $controllerStub
+        );
 
         $serviceStub = "<?php
 
